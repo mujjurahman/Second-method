@@ -1,0 +1,15 @@
+pfe_med_connect.upload:
+  path: '/pfe-med-connect/upload'
+  defaults:
+    _controller: '\Drupal\pfe_med_connect\Controller\MedConnectController::uploadForm'
+    _title: 'Med Connect Upload'
+  requirements:
+    _permission: 'access content'
+
+pfe_med_connect.process:
+  path: '/pfe-med-connect/process'
+  defaults:
+    _controller: '\Drupal\pfe_med_connect\Controller\MedConnectController::processFile'
+    _title: 'Med Connect File Processing'
+  requirements:
+    _permission: 'access content'
