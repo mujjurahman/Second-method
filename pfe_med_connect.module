@@ -1,0 +1,87 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function pfe_med_connect_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.pfe_med_connect':
+      return '<p>' . t('Med Connect module provides functionality to upload and process Excel files.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function pfe_med_connect_permission() {
+  return [
+    'access content' => [
+      'title' => t('Access content'),
+      'description' => t('Access Med Connect module content.'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_install().
+ */
+function pfe_med_connect_install() {
+  // Create the custom table.
+  $schema = \Drupal::database()->schema();
+  $table_name = $schema->normalizeTableName('med_connect_table');
+  $table = [
+    'description' => 'Med Connect Table',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique ID.',
+      ],
+      'product' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Product.',
+      ],
+      'therapeutic_area' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Therapeutic Area.',
+      ],
+      'district' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'District.',
+      ],
+      'msl_email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'MSL Email Address.',
+      ],
+      'backup_email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Backup Email Address.',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema->createTable($table_name, $table);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function pfe_med_connect_uninstall() {
+  // Drop the custom table.
+  $schema = \Drupal::database()->schema();
+  $table_name = $schema->normalizeTableName('med_connect_table');
+  $schema->dropTable($table_name);
+}
